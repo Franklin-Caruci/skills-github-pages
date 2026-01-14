@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuNombre | Soluciones Tech & Arte IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES Y ESTILOS GENERALES --- */
+        :root {
+            --primary: #00d4ff; /* Cian Tecnológico */
+            --secondary: #ff007a; /* Magenta para la parte creativa/IA */
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --whatsapp-green: #25d366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif; /* Fuente estilo futurista */
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- NAVEGACIÓN --- */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a:hover { color: var(--primary); transition: 0.3s; }
+
+        /* --- HERO SECTION (LA PORTADA) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero span { color: var(--primary); }
+        .hero .ai-text { color: var(--secondary); }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            color: var(--text-gray);
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: var(--dark-bg);
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover { background: #fff; transform: translateY(-3px); }
+
+        /* --- SECCIONES --- */
+        section {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        /* --- SERVICIOS TÉCNICOS --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        
+        .card h3 { margin-bottom: 15px; color: var(--primary); }
+        
+        .card ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card ul li::before {
+            content: "▹";
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        /* --- SECCIÓN IA VEO 3.1 --- */
+        .ai-section {
+            background: linear-gradient(45deg, #1e1e2f, #2d1b2e);
+            border-top: 1px solid #333;
+        }
+
+        .ai-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .ai-content { flex: 1; }
+        .ai-visual { flex: 1; min-width: 300px; }
+
+        .ai-content h2 { color: var(--secondary); margin-bottom: 20px; font-size: 2.5rem; }
+        .ai-content p { margin-bottom: 20px; font-size: 1.1rem; }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder::after {
+            content: "VEO 3.1 RENDERING...";
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        /* --- CONTACTO / COTIZACIÓN --- */
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-info h3 { color: var(--primary); margin-bottom: 15px; }
+        .contact-item { margin-bottom: 20px; font-size: 1.1rem; }
+
+        /* Estilos del Formulario Simulado */
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #334155;
+            color: white;
+            border: 1px solid #475569;
+            border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid var(--primary);
+            border-color: transparent;
+        }
+
+        /* --- BOTÓN FLOTANTE WHATSAPP --- */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: var(--whatsapp-green);
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 2px 2px 10px #666;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #000;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            nav { display: none; } /* Oculto en móvil para este demo */
+            .contact-container { flex-direction: column; }
+            .whatsapp-float { bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">TECH & IA VISION</div>
+        <nav>
+            <ul>
+                <li><a href="#servicios">Soporte Técnico</a></li>
+                <li><a href="#ia">Creador IA</a></li>
+                <li><a href="#contacto">Cotizar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Experto en <span class="tech-text">Tecnología</span> <br> & <span class="ai-text">Arte Digital IA</span></h1>
+        <p>Soluciones a medida: desde reparación de hardware y redes complejas hasta producción cinematográfica con VEO 3.1.</p>
+        <a href="#contacto" class="btn">Solicitar Presupuesto Gratis</a>
+    </section>
+
+    <section id="servicios">
+        <div style="text-align: center;"><h2 class="section-title">Soporte Técnico Especializado</h2></div>
+        
+        <div class="services-grid">
+            <div class="card">
+                <h3>🛠️ Reparación & Mantenimiento</h3>
+                <ul>
+                    <li>Diagnóstico de PC Escritorio y Laptops.</li>
+                    <li>Reparación de Hardware y Software.</li>
+                    <li>Optimización de Celulares Android y Tablets.</li>
+                    <li>Recuperación de sistemas operativos.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>📡 Redes & Conectividad</h3>
+                <ul>
+                    <li>Experto en soluciones de Internet.</li>
+                    <li>Instalación de Redes Cableadas (Estructurado).</li>
+                    <li>Configuración avanzada de Redes Wi-Fi.</li>
+                    <li>Solución de problemas de señal y velocidad.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🔒 Seguridad Electrónica</h3>
+                <ul>
+                    <li>Instalación de Cámaras de Seguridad (CCTV).</li>
+                    <li>Configuración de monitoreo remoto en móvil.</li>
+                    <li>Mantenimiento de sistemas de vigilancia.</li>
+                    <li>Asesoría en seguridad perimetral digital.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="ia" class="ai-section">
+        <div class="ai-container">
+            <div class="ai-content">
+                <h2>Creador Digital IA VEO 3.1</h2>
+                <p>Producción de video cinematográfico de vanguardia. Utilizando <strong>Google VEO 3.1</strong>, creo contenido visual de alta fidelidad.</p>
+                <p>Ideal para videos musicales, comerciales, cortometrajes futuristas y redes sociales.</p>
+                <ul>
+                    <li>✅ Generación de video hiperrealista.</li>
+                    <li>✅ Edición y post-producción con IA.</li>
+                    <li>✅ Estilos personalizados.</li>
+                </ul>
+                <br>
+                <a href="https://wa.me/584126929596?text=Hola,%20me%20interesa%20crear%20un%20video%20cinematogr%C3%A1fico%20con%20IA%20VEO%203.1.%20%C2%BFPodr%C3%ADa%20darme%20precios?" target="_blank" class="btn" style="background: var(--secondary);">
+                    Cotizar Video IA
+                </a>
+            </div>
+            <div class="video-placeholder" style="padding: 0; background: transparent;">
+    <video width="100%" height="100%" controls autoplay muted loop style="border-radius: 10px; object-fit: cover;">
+        <source src="video-ia.mp4" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+</div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div style="text-align: center;">
+            <h2 class="section-title">Solicita tu Cotización</h2>
+            <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto 40px auto;">
+                Cada proyecto es único. Cuéntame qué necesitas (reparación, instalación de redes o video IA) y te daré un presupuesto ajustado a tus necesidades sin compromiso.
+            </p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info card">
+                <h3>📞 Contacto Rápido</h3>
+                <p class="contact-item">La forma más rápida de obtener un diagnóstico es por WhatsApp:</p>
+                <br>
+                <a href="https://wa.me/584126929596?text=Hola,%20visit%C3%A9%20su%20p%C3%A1gina%20web.%20Me%20gustar%C3%ADa%20solicitar%20cotizaci%C3%B3n%20o%20diagn%C3%B3stico%20para%20un%20servicio.%20Quedo%20atento." 
+                   target="_blank" 
+                   class="btn" 
+                   style="background-color: var(--whatsapp-green); color: white; border: none; width: 100%; text-align: center;">
+                    Escribir al WhatsApp
+                </a>
+                <br><br>
+                <p class="contact-item" style="font-size: 0.9rem;">📧 fmcomputacion@gmail.com</p>
+                <p class="contact-item" style="font-size: 0.9rem;">📍 Barquisimeto / Cabudare</p>
+            </div>
+
+            <div class="contact-info card" style="border-left: 4px solid var(--secondary);">
+                <h3>📋 Detalla tu Falla</h3>
+                <form action="mailto:tu-email@gmail.com" method="post" enctype="text/plain" style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" placeholder="Tu Nombre">
+                    <select>
+                        <option>Selecciona el servicio:</option>
+                        <option>Reparación PC/Laptop</option>
+                        <option>Instalación Cámaras/Redes</option>
+                        <option>Creación Video IA</option>
+                        <option>Otro</option>
+                    </select>
+                    <textarea rows="4" placeholder="Describe brevemente la falla o el proyecto..."></textarea>
+                    <button type="submit" class="btn" style="cursor: pointer; width: 100%;">Enviar Consulta</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Franklin Carucí - Experto en Tecnología y Creador IA. Todos los derechos reservados.</p>
+    </footer>
+
+    <a href="https://wa.me/584126929596?text=Hola,%20visit%C3%A9%20su%20p%C3%A1gina%20web.%20Me%20gustar%C3%ADa%20solicitar%20cotizaci%C3%B3n%20o%20diagn%C3%B3stico%20para%20un%20servicio.%20Quedo%20atento." 
+       class="whatsapp-float" 
+       target="_blank"
+       title="Chatea conmigo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="30px">
+    </a>
+
+</body>
+</html>
